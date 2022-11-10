@@ -7,11 +7,11 @@ import (
 	"net"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 type Adapter struct {
 	api ports.APIPort
-	pb.UnimplementedArithmeticServiceServer
 }
 
 func NewGRPCAdapter(api ports.APIPort) *Adapter {
@@ -19,7 +19,7 @@ func NewGRPCAdapter(api ports.APIPort) *Adapter {
 }
 
 func (adapter Adapter) Run() {
-	listen, err := net.Listen("tcp", "9000")
+	listen, err := net.Listen("tcp", ":9000")
 	if err != nil {
 		log.Fatalf("Could not listen at port 9000: %v", err)
 	}
@@ -27,6 +27,7 @@ func (adapter Adapter) Run() {
 	new_grpc := grpc.NewServer()
 	service := adapter
 	pb.RegisterArithmeticServiceServer(new_grpc, service)
+	reflection.Register(new_grpc)
 
 	if err := new_grpc.Serve(listen); err != nil {
 		log.Fatalf("Error starting the server %v", err)

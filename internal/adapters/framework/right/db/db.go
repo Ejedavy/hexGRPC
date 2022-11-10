@@ -2,11 +2,11 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"time"
 
 	sq "github.com/Masterminds/squirrel"
-
 	// blank import for mysql driver
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -19,6 +19,7 @@ func NewAdapter(driverName, dataSourceName string) (*Adapter, error) {
 	// Create the SQL Database
 	var err error
 	db, err := sql.Open(driverName, dataSourceName)
+	fmt.Println(dataSourceName)
 	if err != nil {
 		log.Fatalf("Error creating the database %v", err)
 	}

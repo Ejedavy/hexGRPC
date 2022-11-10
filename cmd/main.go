@@ -18,8 +18,8 @@ func main() {
 	var server ports.GRPCPort
 	var app ports.APIPort
 
-	driverName := os.Getenv("DB_DRIVER_NAME")
-	dataSourceName := os.Getenv("DB_DATASOURCE_NAME")
+	driverName := os.Getenv("DB_DRIVER")
+	dataSourceName := os.Getenv("DS_NAME")
 	core = arithmetic.NewAdapter()
 	database, err = db.NewAdapter(driverName, dataSourceName)
 	if err != nil {

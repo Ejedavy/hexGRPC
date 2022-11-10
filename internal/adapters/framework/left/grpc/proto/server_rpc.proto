@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package pb;
 
-import "numbers_msg.proto";
+import "internal/adapters/framework/left/grpc/proto/messages.proto";
 
 option go_package = "./pb";
 

@@ -14,6 +14,8 @@ services:
 
   grpc: 
     build: .
+    ports:
+      - "9000:9000"
     environment:
       DB_DRIVER: "mysql"
       DS_NAME: "root:Admin123@tcp(db:3306)/hex_test"
