@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "internal/adapters/left/grpc/proto";
+
+
+message Operands{
+    int32 a = 1;
+    int32 b = 2;
+}
+
+message Answer{
+    int32 value = 1;
+}
+
+service ArithmeticService{
+    rpc GetAddition(Operands) returns (Answer){}
+    rpc GetMultiplication(Operands) returns (Answer){}
+    rpc GetDivision(Operands) returns (Answer){}
+    rpc GetSubtraction(Operands) returns (Answer){}
+}

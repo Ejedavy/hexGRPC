@@ -7,8 +7,8 @@ RUN apk update \
     mysql-client \
     build-base
   
-RUN mkdir /app
-WORKDIR /app
+RUN mkdir /App
+WORKDIR /App
 
 COPY go.mod .
 COPY go.sum .
