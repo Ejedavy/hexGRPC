@@ -1,32 +1,34 @@
 package main
 
 import (
-	"hex/internal/adapters/app/api"
-	"hex/internal/adapters/core/arithmetic"
-	GRPC "hex/internal/adapters/framework/left/grpc"
-	"hex/internal/adapters/framework/right/db"
-	"hex/internal/ports"
+	GRPC "github.com/ejedavy/hexGRPC/internal/adapters/left/grpc"
+	"github.com/ejedavy/hexGRPC/internal/adapters/right/db"
+	"github.com/ejedavy/hexGRPC/internal/app"
+	"github.com/ejedavy/hexGRPC/internal/ports"
 	"log"
 	"os"
 )
 
 func main() {
 
-	var core ports.ArithmeticPort
 	var database ports.DBPort
 	var err error
-	var server ports.GRPCPort
-	var app ports.APIPort
 
 	driverName := os.Getenv("DB_DRIVER")
 	dataSourceName := os.Getenv("DS_NAME")
-	core = arithmetic.NewAdapter()
+
+	// create driven adapters
 	database, err = db.NewAdapter(driverName, dataSourceName)
 	if err != nil {
 		log.Fatalf("Cannot start up the database %v", err)
 	}
 	defer database.CloseConnection()
-	app = api.NewAdapter(core, database)
-	server = GRPC.NewGRPCAdapter(app)
+
+	// plug into application ports
+	application := app.New(database)
+
+	// use application to run driver ports
+
+	server := GRPC.NewGRPCAdapter(application)
 	server.Run()
 }

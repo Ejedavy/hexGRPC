@@ -1,4 +1,4 @@
-module hex
+module github.com/ejedavy/hexGRPC
 
 go 1.19
 
